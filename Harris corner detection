@@ -1,0 +1,35 @@
+import cv2
+import numpy as np
+
+# Load the original image and the watermark image
+original_image = cv2.imread("original_image.jpg")
+watermark_image = cv2.imread("watermark_image.png", cv2.IMREAD_UNCHANGED)
+
+# Resize the watermark image to fit the original image
+watermark_height, watermark_width, _ = watermark_image.shape
+original_height, original_width, _ = original_image.shape
+scaling_factor = min(original_width / watermark_width, original_height / watermark_height)
+resized_watermark = cv2.resize(watermark_image, None, fx=scaling_factor, fy=scaling_factor)
+
+# Get the dimensions of the resized watermark image
+watermark_height, watermark_width, _ = resized_watermark.shape
+
+# Define the region of interest (ROI) for placing the watermark
+# For example, place it in the bottom right corner
+start_row = original_height - watermark_height
+start_col = original_width - watermark_width
+end_row = start_row + watermark_height
+end_col = start_col + watermark_width
+
+# Blend the watermark with the original image
+# The fourth channel of the watermark image is the alpha channel (transparency)
+for i in range(watermark_height):
+    for j in range(watermark_width):
+        if resized_watermark[i, j, 3] != 0:  # If the pixel is not transparent
+            original_image[start_row + i, start_col + j] = resized_watermark[i, j, :3]  # Copy RGB values
+
+# Save or display the watermarked image
+cv2.imwrite("watermarked_image.jpg", original_image)
+cv2.imshow("Watermarked Image", original_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
