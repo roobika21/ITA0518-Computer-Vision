@@ -1,0 +1,17 @@
+import cv2
+import numpy as np
+
+# Read the input image
+input_image = cv2.imread("input_image.jpg", cv2.IMREAD_GRAYSCALE)
+
+# Define the kernel for dilation
+kernel = np.ones((5, 5), np.uint8)  # Adjust the kernel size as needed
+
+# Perform dilation
+dilated_image = cv2.dilate(input_image, kernel, iterations=1)
+
+# Display the original and dilated images
+cv2.imshow("Original Image", input_image)
+cv2.imshow("Dilated Image", dilated_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
