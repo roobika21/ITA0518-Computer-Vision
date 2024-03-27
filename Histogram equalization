@@ -1,0 +1,23 @@
+import cv2
+import numpy as np
+
+# Load the image
+image = cv2.imread("input_image.jpg")
+
+# Define the corners of the original image and the corresponding corners after transformation
+# Here's an example of defining the corners for perspective transformation
+original_corners = np.float32([[50, 50], [200, 50], [50, 200], [200, 200]])
+transformed_corners = np.float32([[10, 100], [200, 50], [100, 250], [200, 200]])
+
+# Compute the perspective transformation matrix
+M = cv2.getPerspectiveTransform(original_corners, transformed_corners)
+
+# Apply the perspective transformation
+# Syntax: cv2.warpPerspective(image, M, (width, height))
+transformed_image = cv2.warpPerspective(image, M, (image.shape[1], image.shape[0]))
+
+# Display the original and transformed images
+cv2.imshow("Original Image", image)
+cv2.imshow("Transformed Image", transformed_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
