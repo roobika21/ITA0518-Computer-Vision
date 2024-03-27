@@ -1,0 +1,21 @@
+import cv2
+import numpy as np
+
+# Load the image
+image = cv2.imread("input_image.jpg")
+
+# Define the transformation matrix
+# Here's an example of a translation transformation
+# You can adjust the values for other types of transformations
+# For example, for rotation: M = cv2.getRotationMatrix2D(center, angle, scale)
+M = np.float32([[1, 0, 100], [0, 1, 50]])  # Translation by (100, 50)
+
+# Apply the affine transformation
+# Syntax: cv2.warpAffine(image, M, (width, height))
+transformed_image = cv2.warpAffine(image, M, (image.shape[1], image.shape[0]))
+
+# Display the original and transformed images
+cv2.imshow("Original Image", image)
+cv2.imshow("Transformed Image", transformed_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
