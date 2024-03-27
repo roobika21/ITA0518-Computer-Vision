@@ -1,0 +1,24 @@
+import cv2
+import numpy as np
+
+# Read the image
+image = cv2.imread("input_image.jpg")
+
+# Convert the image to grayscale
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Detect corners using Harris Corner Detection
+# Adjust the parameters (blockSize, ksize, k) as needed
+# More details: https://docs.opencv.org/4.x/d4/d7d/tutorial_harris_detector.html
+corners = cv2.cornerHarris(gray_image, blockSize=2, ksize=3, k=0.04)
+
+# Threshold for an optimal value, it may vary depending on the image
+threshold = 0.01 * corners.max()
+
+# Draw corners on the original image
+image[corners > threshold] = [0, 0, 255]  # Color the detected corners in red
+
+# Display the image with detected corners
+cv2.imshow("Image with Corners", image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
