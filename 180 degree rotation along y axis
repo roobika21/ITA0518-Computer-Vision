@@ -1,0 +1,18 @@
+from PIL import Image
+import numpy as np
+
+# Open the image
+image = Image.open("input_image.jpg")
+
+# Convert image to numpy array
+image_array = np.array(image)
+
+# Perform the 180-degree rotation clockwise along the y-axis
+rotated_image_array = np.flip(image_array, axis=1)
+
+# Convert the rotated numpy array back to an image
+rotated_image = Image.fromarray(rotated_image_array)
+
+# Save or display the rotated image
+rotated_image.save("rotated_image.jpg")
+rotated_image.show()
